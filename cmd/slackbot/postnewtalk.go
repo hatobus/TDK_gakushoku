@@ -1,7 +1,6 @@
 package slackbot
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -35,6 +34,6 @@ func PostNewTalk(userID, category string) error {
 		return err
 	}
 
-	fmt.Printf("Message successfully sent to channel %s at %s", channelID, timestamp)
+	log.Printf("Message successfully sent to channel %s at %s", channelID, timestamp)
 	return nil
 }

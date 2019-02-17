@@ -12,6 +12,7 @@ import (
 	"github.com/hatobus/TDK_gakushoku/cmd/presenter"
 	"github.com/hatobus/TDK_gakushoku/cmd/slackbot"
 	"github.com/hatobus/TDK_gakushoku/cmd/util"
+	"github.com/nlopes/slack/slackevents"
 )
 
 func main() {
@@ -123,7 +124,16 @@ func CreateWork(c *gin.Context) {
 }
 
 func GetAcceptUser(c *gin.Context) {
-	// res := &slack.slackevents.MessageAction{}
-	// err := c.BindJSON(res)
+	// res := &slack.MessageAction{}
+	res := &slackevents.MessageAction{}
+	err := c.BindJSON(res)
+	if err != nil {
+		log.Println(err)
+	}
 
+	log.Println(res.User)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "OK",
+	})
 }

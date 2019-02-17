@@ -12,24 +12,29 @@ func PostNewTalk(userID, category string) error {
 	api := slack.New(os.Getenv("SlackTOKEN"))
 
 	attachment := slack.Attachment{
-		Pretext: "some pretext",
-		Text:    "some text",
+		Pretext: "",
+		Text:    "誰かやって~~~~~~~~~~~~~",
 		// Uncomment the following part to send a field too
-		/*
-			Fields: []slack.AttachmentField{
-				slack.AttachmentField{
-					Title: "a",
-					Value: "no",
-				},
+		Actions: []slack.AttachmentAction{
+			slack.AttachmentAction{
+				Name:  "request",
+				Text:  "俺がやる",
+				Type:  "button",
+				Value: "",
 			},
-		*/
+		},
 	}
 
-	channelID, timestamp, err := api.PostMessage(os.Getenv("slackChannelID"), slack.MsgOptionText(category, false), slack.MsgOptionAttachments(attachment))
+	channelID, timestamp, err := api.PostMessage(
+		os.Getenv("slackChannelID"),
+		slack.MsgOptionText(userID+" さんが "+category+" の仕事を誰かにやってもらいたいそうです", false),
+		slack.MsgOptionAttachments(attachment))
+
 	if err != nil {
 		log.Printf("%s\n", err)
 		return err
 	}
+
 	fmt.Printf("Message successfully sent to channel %s at %s", channelID, timestamp)
 	return nil
 }

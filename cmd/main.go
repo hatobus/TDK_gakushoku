@@ -37,7 +37,7 @@ func main() {
 	}
 
 	os.Setenv("SOURCE", source)
-	os.Setenv("SlackTOKEN", "xoxp-552584571425-552408532688-552536684320-1d106b6a40d9112d82f75dce006903d0")
+	os.Setenv("SlackTOKEN", "xoxp-552584571425-552408532688-554403447383-d55835881f49461fa9895046640229d5")
 	os.Setenv("slackChannelID", "CG951BD6X")
 
 	// err = presenter.InsertDummyUser()
@@ -76,6 +76,7 @@ func CreateWork(c *gin.Context) {
 	creq := &models.PostReq{}
 	err := c.BindJSON(creq)
 	if err != nil {
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err,
 		})
@@ -84,28 +85,30 @@ func CreateWork(c *gin.Context) {
 
 	var work string
 	switch creq.Category {
-	case 1:
+	case "1":
 		log.Println("雑用")
 		work = "雑用"
-	case 2:
+	case "2":
 		log.Println("Geek Dojo")
 		work = "Geek Dojo"
-	case 3:
+	case "3":
 		log.Println("フロントエンド")
 		work = "フロントエンド"
-	case 4:
+	case "4":
 		log.Println("サーバーサイド")
 		work = "サーバーサイド"
-	case 5:
+	case "5":
 		log.Println("インフラ")
 		work = "インフラ"
-	case 6:
+	case "6":
 		log.Println("セキュリティ")
 		work = "セキュリティ"
 	}
 
 	err = slackbot.PostNewTalk(creq.UserID, work)
 	if err != nil {
+		log.Println("slackbot post error")
+		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err,
 		})

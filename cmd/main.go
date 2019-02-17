@@ -57,7 +57,7 @@ func main() {
 	r.POST(conf.BaseURL+"/new", CreateWork)
 	r.POST(conf.BaseURL+"/user/accept", GetAcceptUser)
 
-	r.Run(":443")
+	r.Run(conf.MySQL.Local)
 }
 
 func GetRanking(c *gin.Context) {

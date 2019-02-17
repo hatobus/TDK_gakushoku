@@ -8,6 +8,7 @@ type MySQL struct {
 	Port     int    `default:"3306"`
 	User     string `default:"root"`
 	Host     string `default:"localhost"`
+	Local    string `default:":8088"`
 	Password string `default:"mysql"`
 	Database string `default:"helpnamiki"`
 }

@@ -55,8 +55,9 @@ func main() {
 
 	r.GET(conf.BaseURL+"/rank", GetRanking)
 	r.POST(conf.BaseURL+"/new", CreateWork)
+	r.POST(conf.BaseURL+"/user/accept", GetAcceptUser)
 
-	r.Run(":8088")
+	r.Run(":80")
 }
 
 func GetRanking(c *gin.Context) {
@@ -118,5 +119,11 @@ func CreateWork(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "posted",
 	})
+
+}
+
+func GetAcceptUser(c *gin.Context) {
+	// res := &slack.slackevents.MessageAction{}
+	// err := c.BindJSON(res)
 
 }

@@ -17,10 +17,7 @@ func PostNewTalk(userID, category string) error {
 		// Uncomment the following part to send a field too
 		Actions: []slack.AttachmentAction{
 			slack.AttachmentAction{
-				Name:  "request",
-				Text:  "俺がやる",
-				Type:  "button",
-				Value: "",
+				Name: "hoge",
 			},
 		},
 	}

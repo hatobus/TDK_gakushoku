@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hatobus/TDK_gakushoku/cmd/models"
 	"github.com/hatobus/TDK_gakushoku/cmd/presenter"
@@ -45,6 +46,12 @@ func main() {
 	// }
 
 	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"PUT", "POST", "GET", "DELETE"},
+		AllowHeaders: []string{"content-type", "boundary"},
+	}))
 
 	r.GET(conf.BaseURL+"/rank", GetRanking)
 	r.POST(conf.BaseURL+"/new", CreateWork)

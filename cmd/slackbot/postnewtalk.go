@@ -12,12 +12,15 @@ func PostNewTalk(userID, category string) error {
 	api := slack.New(os.Getenv("SlackTOKEN"))
 
 	attachment := slack.Attachment{
-		Pretext: "",
-		Text:    "誰かやって~~~~~~~~~~~~~",
+		Pretext:    "",
+		Text:       "誰かやって~~~~~~~~~~~~~",
+		CallbackID: "user/request",
 		// Uncomment the following part to send a field too
 		Actions: []slack.AttachmentAction{
 			slack.AttachmentAction{
-				Name: "hoge",
+				Name: "request",
+				Text: "俺がやる",
+				Type: "button",
 			},
 		},
 	}

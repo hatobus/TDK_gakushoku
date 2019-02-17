@@ -26,6 +26,8 @@ func main() {
 		conf.MySQL.Port,
 		conf.MySQL.Database)
 
+	log.Println(source)
+
 	_, err = presenter.InitEngine(source)
 	if err != nil {
 		log.Fatalln(err)
@@ -33,14 +35,15 @@ func main() {
 
 	os.Setenv("SOURCE", source)
 
-	err = presenter.InsertDummyUser()
-	if err != nil {
-		log.Fatalln(err)
-	}
+	// err = presenter.InsertDummyUser()
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// }
 
 	r := gin.Default()
 
 	r.GET("/rank", GetRanking)
+	r.POST("/new", CreateWork)
 
 	r.Run(":8080")
 }
@@ -56,4 +59,8 @@ func GetRanking(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusAccepted, top10)
+}
+
+func CreateWork(c *gin.Context) {
+
 }

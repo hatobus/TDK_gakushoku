@@ -1,6 +1,16 @@
 version: "2"
 
 services:
+    namikihelper_server:
+        container_name: tdkserver
+        image: hatobus/tdkserver:latest
+        ports:
+            - 8088:8080
+        depends_on:
+            - mysql
+        environment:
+            NAMIKI_MYSQL_HOST: helpnamiki_mysql
+            NAMIKI_MYSQL_PORT: 3306
     mysql:
         container_name: helpnamiki_mysql
         hostname:   helpnamiki_mysql

@@ -13,10 +13,11 @@ type MySQL struct {
 }
 
 type Config struct {
-	Host   string `default:"localhost"`
-	Port   string `default:"9090"`
-	Client string `default:"localhost:8080"`
-	MySQL  MySQL  `envconfig:"MYSQL"`
+	Host    string `default:"localhost"`
+	Port    string `default:"9090"`
+	Client  string `default:"localhost:8080"`
+	BaseURL string `default:"/namikihelper`
+	MySQL   MySQL  `envconfig:"MYSQL"`
 }
 
 var config Config

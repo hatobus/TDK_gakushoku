@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hatobus/TDK_gakushoku/cmd/models"
 	"github.com/hatobus/TDK_gakushoku/cmd/presenter"
 	"github.com/hatobus/TDK_gakushoku/cmd/util"
 )
@@ -42,10 +43,10 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/rank", GetRanking)
-	r.POST("/new", CreateWork)
+	r.GET(conf.BaseURL+"/rank", GetRanking)
+	r.POST(conf.BaseURL+"/new", CreateWork)
 
-	r.Run(":8080")
+	r.Run(":8088")
 }
 
 func GetRanking(c *gin.Context) {
@@ -62,5 +63,13 @@ func GetRanking(c *gin.Context) {
 }
 
 func CreateWork(c *gin.Context) {
+	creq := &models.PostReq{}
+	err := c.BindJSON(creq)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err,
+		})
+		return
+	}
 
 }

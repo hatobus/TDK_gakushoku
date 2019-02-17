@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hatobus/TDK_gakushoku/cmd/models"
 	"github.com/hatobus/TDK_gakushoku/cmd/presenter"
+	"github.com/hatobus/TDK_gakushoku/cmd/slackbot"
 	"github.com/hatobus/TDK_gakushoku/cmd/util"
 )
 
@@ -35,6 +36,8 @@ func main() {
 	}
 
 	os.Setenv("SOURCE", source)
+	os.Setenv("SlackTOKEN", "xoxp-552584571425-552408532688-552536684320-1d106b6a40d9112d82f75dce006903d0")
+	os.Setenv("slackChannelID", "CG951BD6X")
 
 	// err = presenter.InsertDummyUser()
 	// if err != nil {
@@ -71,5 +74,39 @@ func CreateWork(c *gin.Context) {
 		})
 		return
 	}
+
+	var work string
+	switch creq.Category {
+	case 1:
+		log.Println("雑用")
+		work = "雑用"
+	case 2:
+		log.Println("Geek Dojo")
+		work = "Geek Dojo"
+	case 3:
+		log.Println("フロントエンド")
+		work = "フロントエンド"
+	case 4:
+		log.Println("サーバーサイド")
+		work = "サーバーサイド"
+	case 5:
+		log.Println("インフラ")
+		work = "インフラ"
+	case 6:
+		log.Println("セキュリティ")
+		work = "セキュリティ"
+	}
+
+	err = slackbot.PostNewTalk(creq.UserID, work)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "posted",
+	})
 
 }

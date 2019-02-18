@@ -127,6 +127,7 @@ func GetAcceptUser(c *gin.Context) {
 	res := &slackevents.MessageAction{}
 	err := c.BindJSON(res)
 	log.Println(c.Request.Body)
+	log.Println(res)
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{

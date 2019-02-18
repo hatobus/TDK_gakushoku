@@ -4,3 +4,13 @@ build:
 docker-build:
 	make build
 	docker build ./ --tag hatobus/tdkserver:latest
+
+deploy:
+	make docker-build
+	docker push hatobus/tdkserver
+
+up-gcp:
+	sudo git pull
+	sudo docker pull hatobus/tdkserver
+	sudo docker-compose down 
+	sudo docker-compose up

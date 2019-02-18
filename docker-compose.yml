@@ -11,7 +11,7 @@ services:
         environment:
             NAMIKI_MYSQL_HOST: helpnamiki_mysql
             NAMIKI_MYSQL_PORT: 3306
-            NAMIKI_MYSQL_LOCAL: 80
+            NAMIKI_MYSQL_LOCAL: :80
 
     mysql:
         container_name: helpnamiki_mysql

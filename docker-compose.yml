@@ -12,6 +12,7 @@ services:
             NAMIKI_MYSQL_HOST: helpnamiki_mysql
             NAMIKI_MYSQL_PORT: 3306
             NAMIKI_MYSQL_LOCAL: :8088
+            NAMIKI_SlackTOKEN: YOURKEY
 
     mysql:
         container_name: helpnamiki_mysql

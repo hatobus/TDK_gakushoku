@@ -8,7 +8,7 @@ import (
 )
 
 func PostNewTalk(userID, category string) error {
-	api := slack.New(os.Getenv("SlackTOKEN"))
+	api := slack.New(os.Getenv("NAMIKI_SlackTOKEN"))
 
 	attachment := slack.Attachment{
 		Pretext:    "",

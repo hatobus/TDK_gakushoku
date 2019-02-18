@@ -60,6 +60,7 @@ func main() {
 	r.GET(conf.BaseURL+"/rank", GetRanking)
 	r.POST(conf.BaseURL+"/new", CreateWork)
 	r.POST(conf.BaseURL+"/user/accept", GetAcceptUser)
+	r.POST(conf.BaseURL+"/user/insertdummy", InsertDummyUser)
 
 	r.Run(conf.MySQL.Local)
 }
@@ -73,6 +74,8 @@ func GetRanking(c *gin.Context) {
 		})
 		return
 	}
+
+	pp.Println(top10)
 
 	c.JSON(http.StatusAccepted, top10)
 }
@@ -136,10 +139,10 @@ func GetAcceptUser(c *gin.Context) {
 	// pp.Println(c.Request)
 
 	buf, err := ioutil.ReadAll(c.Request.Body)
-	log.Println(err)
+	// log.Println(err)
 	jsonstr, err := url.QueryUnescape(string(buf)[8:])
-	log.Println(err)
-	pp.Println(jsonstr)
+	// log.Println(err)
+	// pp.Println(jsonstr)
 
 	err = json.Unmarshal([]byte(jsonstr), res)
 	if err != nil {
@@ -149,16 +152,33 @@ func GetAcceptUser(c *gin.Context) {
 		return
 	}
 
-	pp.Println(res)
-
-	err = presenter.UpdateUserCoin(res.User.Name)
+	api := slack.New(os.Getenv("NAMIKI_SlackTOKEN"))
+	user, err := api.GetUserInfo(res.User.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err,
 		})
 	}
 
+	// pp.Println(user)
+
+	err = presenter.UpdateUserCoin(user.Profile.DisplayName)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err,
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "OK",
+	})
+}
+
+func InsertDummyUser(c *gin.Context) {
+	err := presenter.InsertDummyUser()
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": err,
 	})
 }

@@ -1,8 +1,6 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 type Student struct {
 	No         int       `xorm:"not null pk autoincr INT(11)"`

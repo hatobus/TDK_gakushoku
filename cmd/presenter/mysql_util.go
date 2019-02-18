@@ -45,7 +45,7 @@ func InsertDummyUser() error {
 	e, _ := SetUpEngine(os.Getenv("SOURCE"))
 
 	var users = make([]models.Student, 0, 0)
-	name := []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
+	name := []string{"ando", "gpioblink", "shiho", "bus", "HKato", "haga", "hato", "nozo", "noah", "eta"}
 	coin := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
 
 	for i, n := range name {

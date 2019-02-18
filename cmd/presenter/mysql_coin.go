@@ -3,8 +3,10 @@ package presenter
 import (
 	"log"
 	"os"
+	"time"
 
 	"github.com/hatobus/TDK_gakushoku/cmd/models"
+	"github.com/k0kubun/pp"
 )
 
 func UpdateUserCoin(username string) error {
@@ -16,10 +18,8 @@ func UpdateUserCoin(username string) error {
 
 	usr := &models.Student{Name: username}
 	has, err := engine.Get(&usr)
-	if err != nil {
-		log.Println("Get from username error : ", err)
-		return err
-	} else if !has {
+	if !has {
+
 		usr.Sumofcoin = 1
 		_, err = engine.Insert(usr)
 		if err != nil {
@@ -27,9 +27,17 @@ func UpdateUserCoin(username string) error {
 			return err
 		}
 		return nil
+
+	} else if err != nil {
+		log.Println("Get from username error : ", err)
+		return err
+
 	}
 
+	pp.Println(usr)
+
 	usr.Sumofcoin += 1
+	usr.Lastworked = time.Now()
 	_, err = engine.ID(usr.No).Update(usr)
 	if err != nil {
 		log.Println("Coin update error : ", err)

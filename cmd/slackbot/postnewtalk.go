@@ -14,6 +14,7 @@ func PostNewTalk(userID, category string) error {
 	attachment := slack.Attachment{
 		Pretext:    "",
 		Text:       "誰かやって~~~~~~~~~~~~~",
+		Fallback:   "who are doing Namiki's work?",
 		CallbackID: "user/request",
 		// Uncomment the following part to send a field too
 		Actions: []slack.AttachmentAction{

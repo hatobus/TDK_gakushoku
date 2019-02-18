@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -12,7 +15,8 @@ import (
 	"github.com/hatobus/TDK_gakushoku/cmd/presenter"
 	"github.com/hatobus/TDK_gakushoku/cmd/slackbot"
 	"github.com/hatobus/TDK_gakushoku/cmd/util"
-	"github.com/nlopes/slack/slackevents"
+	"github.com/k0kubun/pp"
+	"github.com/nlopes/slack"
 )
 
 func main() {
@@ -122,21 +126,30 @@ func CreateWork(c *gin.Context) {
 
 }
 
+type Payload struct {
+	Payload slack.InteractionCallback `json:"payload"`
+}
+
 func GetAcceptUser(c *gin.Context) {
-	// res := &slack.MessageAction{}
-	res := &slackevents.MessageAction{}
-	err := c.BindJSON(res)
-	log.Println(c.Request.Body)
-	log.Println(res)
+	res := &slack.InteractionCallback{}
+	// res := &Payload{}
+	// pp.Println(c.Request)
+
+	buf, err := ioutil.ReadAll(c.Request.Body)
+	log.Println(err)
+	jsonstr, err := url.QueryUnescape(string(buf)[8:])
+	log.Println(err)
+	pp.Println(jsonstr)
+
+	err = json.Unmarshal([]byte(jsonstr), res)
 	if err != nil {
-		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err,
 		})
 		return
 	}
 
-	log.Println(res.User)
+	pp.Println(res)
 
 	err = presenter.UpdateUserCoin(res.User.Name)
 	if err != nil {

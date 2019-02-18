@@ -38,7 +38,7 @@ func main() {
 	}
 
 	os.Setenv("SOURCE", source)
-	os.Setenv("SlackTOKEN", "xoxp-552584571425-552408532688-553437311842-46d30cd7ec048a509c4d58ff72e31885")
+	os.Setenv("SlackTOKEN", "xoxp-552584571425-552408532688-552899700993-52d7831a03e01423cb885bc1208a4c61")
 	os.Setenv("slackChannelID", "CG951BD6X")
 
 	// err = presenter.InsertDummyUser()

@@ -38,7 +38,7 @@ func main() {
 	}
 
 	os.Setenv("SOURCE", source)
-	os.Setenv("SlackTOKEN", "xoxp-552584571425-552408532688-552612083328-9d401a1802c888fb6d591329ab2edfe7")
+	os.Setenv("SlackTOKEN", "xoxp-552584571425-552408532688-553437311842-46d30cd7ec048a509c4d58ff72e31885")
 	os.Setenv("slackChannelID", "CG951BD6X")
 
 	// err = presenter.InsertDummyUser()
@@ -127,11 +127,23 @@ func GetAcceptUser(c *gin.Context) {
 	// res := &slack.MessageAction{}
 	res := &slackevents.MessageAction{}
 	err := c.BindJSON(res)
+	log.Println(c.Request.Body)
 	if err != nil {
 		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err,
+		})
+		return
 	}
 
 	log.Println(res.User)
+
+	err = presenter.UpdateUserCoin(res.User.Name)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err,
+		})
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "OK",
